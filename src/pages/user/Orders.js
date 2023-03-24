@@ -1,10 +1,7 @@
 import React from "react";
 import Layout from "../../components/Layout/Layout";
 import UserMenu from "../../components/Layout/UserMenu";
-import { useAuth } from "../../context/auth";
-
-const Dashboard = () => {
-  const [auth] = useAuth();
+const Orders = () => {
   return (
     <Layout>
       <div className="container-flui p-3 m-3">
@@ -13,11 +10,7 @@ const Dashboard = () => {
             <UserMenu />
           </div>
           <div className="col-md-9">
-            <div className="card w-75 p-3">
-              <h3>Họ tên : {auth?.user?.name}</h3>
-              <h3>Email : {auth?.user?.email}</h3>
-              <h3>Địa chỉ : {auth?.user?.address}</h3>
-            </div>
+            <h1>Tất cả hàng đã đặt</h1>
           </div>
         </div>
       </div>
@@ -25,4 +18,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Orders;
