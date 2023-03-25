@@ -14,7 +14,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:8888/api/v1/auth/forgot-password",
+        "http://localhost:8000/api/v1/auth/forgot-password",
         {
           email,
           newPassword,

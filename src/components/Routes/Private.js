@@ -10,7 +10,7 @@ export default function PrivateRoute() {
   useEffect(() => {
     const authCheck = async () => {
       const res = await axios.get(
-        "http://localhost:8888/api/v1/auth/user-auth"
+        "http://localhost:8000/api/v1/auth/user-auth"
       );
       if (res.data.ok) {
         setOK(true);
