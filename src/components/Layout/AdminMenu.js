@@ -20,6 +20,12 @@ const AdminMenu = () => {
             Tạo sản phẩm
           </NavLink>
           <NavLink
+            to="/dashboard/admin/products"
+            className="list-group-item list-group-item-action"
+          >
+            Danh sách sản phẩm
+          </NavLink>
+          <NavLink
             to="/dashboard/admin/users"
             className="list-group-item list-group-item-action"
           >

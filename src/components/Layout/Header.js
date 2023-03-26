@@ -58,7 +58,7 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <li class="nav-item dropdown">
+                  <li className="nav-item dropdown">
                     <NavLink
                       className="nav-link dropdown-toggle"
                       href="#"
@@ -68,7 +68,7 @@ const Header = () => {
                     >
                       {auth?.user?.name}
                     </NavLink>
-                    <ul class="dropdown-menu">
+                    <ul className="dropdown-menu">
                       <li>
                         <NavLink
                           to={`/dashboard/${
