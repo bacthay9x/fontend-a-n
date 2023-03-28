@@ -9,7 +9,7 @@ import { Modal } from "antd";
 const CreateCategory = () => {
   const [categoties, setCategories] = useState([]);
   const [name, setName] = useState("");
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
   const [updatedName, setUpdatedName] = useState("");
   //handle Form
@@ -63,7 +63,7 @@ const CreateCategory = () => {
         toast.success(`${updatedName} đã được cập nhật`);
         setSelected(null);
         setUpdatedName("");
-        setVisible(false);
+        setOpen(false);
         getAllCategory();
       } else {
         toast.error(data.message);
@@ -126,7 +126,7 @@ const CreateCategory = () => {
                         <button
                           className="btn btn-primary ms-2"
                           onClick={() => {
-                            setVisible(true);
+                            setOpen(true);
                             setUpdatedName(categoty.name);
                             setSelected(categoty);
                           }}
@@ -147,11 +147,7 @@ const CreateCategory = () => {
                 </tbody>
               </table>
             </div>
-            <Modal
-              onCancel={() => setVisible(false)}
-              footer={null}
-              visible={visible}
-            >
+            <Modal onCancel={() => setOpen(false)} footer={null} open={open}>
               {" "}
               <CategoryForm
                 value={updatedName}

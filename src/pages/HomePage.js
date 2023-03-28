@@ -1,12 +1,153 @@
-import React from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout/Layout";
-import { useAuth } from "../context/auth";
+import { Checkbox, Radio } from "antd";
+import { toast } from "react-hot-toast";
+import { Prices } from "../components/Prices";
 const HomePage = () => {
-  const [auth, setAuth] = useAuth();
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [checked, setChecked] = useState([]);
+  const [radio, setRadio] = useState([]);
+  //get all categories
+  const getAllCategory = async () => {
+    try {
+      const { data } = await axios.get(
+        "http://localhost:8000/api/v1/category/getAllCategory"
+      );
+      if (data.success) {
+        setCategories(data.allCategory);
+      }
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+      toast.error("Có gì đó đang lỗi khi tạo danh mục");
+    }
+  };
+  useEffect(() => {
+    getAllCategory();
+  }, []);
+
+  //get products
+  const getAllProducts = async () => {
+    try {
+      const { data } = await axios.get(
+        "http://localhost:8000/api/v1/product/get-allProduct"
+      );
+      setProducts(data.allProduct);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  //filter by category
+  const handleFilter = (value, id) => {
+    let all = [...checked];
+    if (value) {
+      all.push(id);
+    } else {
+      all = all.filter((category) => category !== id);
+    }
+    setChecked(all);
+  };
+  useEffect(() => {
+    if (!checked.length || !radio.length) getAllProducts();
+    //eslin-disable-next-line
+  }, [checked.length, radio.length]);
+  useEffect(() => {
+    if (checked.length || radio.length) filterProduct();
+  }, [checked, radio]);
+
+  //get filter product
+  const filterProduct = async () => {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:8000/api/v1/product/product-filters",
+        {
+          checked,
+          radio,
+        }
+      );
+      setProducts(data.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Layout title={"Handmade Shop"}>
-      <h1>HomePage</h1>
-      <pre>{JSON.stringify(auth, null, 4)}</pre>
+      <div className="container-fluid row mt-3">
+        <div className="col-md-2 ">
+          <h4 className="text-center">Lọc theo danh mục</h4>
+          <div className="d-flex flex-column">
+            {categories?.map((category) => (
+              <Checkbox
+                key={category._id}
+                onChange={(e) => handleFilter(e.target.checked, category._id)}
+              >
+                {category.name}
+              </Checkbox>
+            ))}
+          </div>
+          {/* price filter*/}
+          <h4 className="text-center mt-4">Lọc theo giá tiền</h4>
+          <div className="d-flex flex-column">
+            <Radio.Group onChange={(e) => setRadio(e.target.value)}>
+              {Prices.map((price) => (
+                <div key={price._id}>
+                  <Radio value={price.array}>{price.name}</Radio>
+                </div>
+              ))}
+            </Radio.Group>
+          </div>
+          <div className="d-flex flex-column mt-3">
+            <button
+              className="btn btn-danger"
+              onClick={() => window.location.reload()}
+            >
+              Tìm kiếm lại
+            </button>
+          </div>
+        </div>
+        <div className="col-md-10">
+          {JSON.stringify(radio, null, 4)}
+          <h1 className="text-center">Tất cả sản phẩm</h1>
+          <div className="d-flex flex-wrap">
+            {products?.map((product) => (
+              <div
+                key={product._id}
+                className="card m-2"
+                style={{ width: "18rem" }}
+              >
+                <img
+                  src={`http://localhost:8000/api/v1/product/product-photo/${product?._id}`}
+                  className="card-img-top"
+                  alt={product.name}
+                  height="200px"
+                />
+                <div className="card-body">
+                  <h5 className="card-title">{product.name}</h5>
+                  <p className="card-text">
+                    {product.description.substring(0, 30)}...
+                  </p>
+                  <p className="card-text">${product.price}</p>
+                  <button
+                    style={{ fontSize: "13px" }}
+                    className="btn btn-primary ms-1 "
+                  >
+                    Xem thêm
+                  </button>
+                  <button
+                    style={{ fontSize: "13px" }}
+                    className="btn btn-secondary ms-1"
+                  >
+                    Thêm vào giỏ hàng
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </Layout>
   );
 };
