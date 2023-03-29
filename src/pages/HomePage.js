@@ -4,6 +4,7 @@ import Layout from "../components/Layout/Layout";
 import { Checkbox, Radio } from "antd";
 import { toast } from "react-hot-toast";
 import { Prices } from "../components/Prices";
+import { useNavigate } from "react-router-dom";
 const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -12,6 +13,7 @@ const HomePage = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   //get all categories
   const getAllCategory = async () => {
@@ -170,7 +172,8 @@ const HomePage = () => {
                   <p className="card-text">${product.price}</p>
                   <button
                     style={{ fontSize: "13px" }}
-                    className="btn btn-primary ms-1 "
+                    className="btn btn-primary ms-1"
+                    onClick={() => navigate(`product/${product.slug}`)}
                   >
                     Xem thêm
                   </button>

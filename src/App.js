@@ -15,6 +15,8 @@ import Contact from "./pages/Contact";
 import HomePage from "./pages/HomePage";
 import PageNotFound from "./pages/PageNotFound";
 import Policy from "./pages/Policy";
+import ProductDetail from "./pages/ProductDetail";
+import Search from "./pages/Search";
 import Dashboard from "./pages/user/Dashboard";
 import Orders from "./pages/user/Orders";
 import Profile from "./pages/user/Profile";
@@ -23,6 +25,8 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/product/:slug" element={<ProductDetail />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="user" element={<Dashboard />} />
           <Route path="user/profile" element={<Profile />} />
