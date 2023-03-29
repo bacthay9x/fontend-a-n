@@ -34,7 +34,7 @@ const Products = () => {
         </div>
         <div className="col-md-9">
           <h1 className="text-center">Tất cả sản phẩm</h1>
-          <div className="d-flex">
+          <div className="d-flex flex-wrap">
             {products?.map((product) => (
               <Link
                 key={product._id}
