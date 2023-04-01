@@ -2,10 +2,12 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout/Layout";
 import { Checkbox, Radio } from "antd";
-import { toast } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { Prices } from "../components/Prices";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/cart";
 const HomePage = () => {
+  const [cart, setCart] = useCart();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
@@ -173,13 +175,17 @@ const HomePage = () => {
                   <button
                     style={{ fontSize: "13px" }}
                     className="btn btn-primary ms-1"
-                    onClick={() => navigate(`product/${product.slug}`)}
+                    onClick={() => navigate(`/product/${product.slug}`)}
                   >
                     Xem thêm
                   </button>
                   <button
                     style={{ fontSize: "13px" }}
                     className="btn btn-secondary ms-1"
+                    onClick={() => {
+                      setCart([...cart, product]);
+                      toast.success("Sản phẩm đã được thêm vào giỏ hàng");
+                    }}
                   >
                     Thêm vào giỏ hàng
                   </button>

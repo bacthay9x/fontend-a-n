@@ -4,8 +4,11 @@ import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
 import SearchInput from "../Form/SearchInput";
 import useCategory from "../../hooks/useCategory";
+import { useCart } from "../../context/cart";
+import { Badge } from "antd";
 const Header = () => {
   const [auth, setAuth] = useAuth();
+  const [cart] = useCart();
   const categories = useCategory();
   const handleLogout = () => {
     setAuth({
@@ -58,7 +61,7 @@ const Header = () => {
                     </Link>
                   </li>
                   {categories?.map((c) => (
-                    <li>
+                    <li key={c._id}>
                       <Link
                         className="dropdown-item"
                         to={`/category/${c.slug}`}
@@ -73,20 +76,20 @@ const Header = () => {
               {!auth.user ? (
                 <>
                   <li className="nav-item">
-                    <NavLink to="/register" className="nav-link">
+                    <Link to="/register" className="nav-link">
                       Đăng Ký
-                    </NavLink>
+                    </Link>
                   </li>
                   <li className="nav-item">
-                    <NavLink to="/login" className="nav-link">
+                    <Link to="/login" className="nav-link">
                       Đăng Nhập
-                    </NavLink>
+                    </Link>
                   </li>
                 </>
               ) : (
                 <>
                   <li className="nav-item dropdown">
-                    <NavLink
+                    <Link
                       className="nav-link dropdown-toggle"
                       href="#"
                       role="button"
@@ -94,24 +97,24 @@ const Header = () => {
                       aria-expanded="false"
                     >
                       {auth?.user?.name}
-                    </NavLink>
+                    </Link>
                     <ul className="dropdown-menu">
                       <li>
-                        <NavLink
+                        <Link
                           to={`/dashboard/${
                             auth?.user?.role === 1 ? "admin" : "user"
                           }`}
                           className="dropdown-item"
                         >
                           Bảng điều khiển
-                        </NavLink>
-                        <NavLink
+                        </Link>
+                        <Link
                           onClick={handleLogout}
                           to="/login"
                           className="dropdown-item"
                         >
                           Đăng Xuất
-                        </NavLink>
+                        </Link>
                       </li>
                     </ul>
                   </li>
@@ -119,7 +122,8 @@ const Header = () => {
               )}
               <li className="nav-item">
                 <NavLink to="/cart" className="nav-link">
-                  Giỏ Hàng (0)
+                  Giỏ Hàng
+                  <Badge count={cart?.length} showZero></Badge>
                 </NavLink>
               </li>
             </ul>

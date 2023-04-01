@@ -11,6 +11,9 @@ import Users from "./pages/Admin/Users";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
+import CartPage from "./pages/CartPage";
+import Categories from "./pages/Categories";
+import CategoryProduct from "./pages/CategoryProduct";
 import Contact from "./pages/Contact";
 import HomePage from "./pages/HomePage";
 import PageNotFound from "./pages/PageNotFound";
@@ -26,6 +29,9 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/product/:slug" element={<ProductDetail />} />
+        <Route path="/categories" element={<Categories />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/category/:slug" element={<CategoryProduct />} />
         <Route path="/search" element={<Search />} />
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="user" element={<Dashboard />} />
